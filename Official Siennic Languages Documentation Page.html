@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Siennic Languages - Reference Documentation</title>
+  <style>
+    /* 1. Base Styles & Wikipedia Aesthetic */
+    :root {
+      --font-family: 'Times New Roman', Times, serif;
+      --text-color: #202122;
+      --bg-color: #ffffff;
+      --link-color: #0645ad;
+      --link-hover-color: #0b0080;
+      --border-color: #a2a9b1;
+      --header-bg: #f8f9fa;
+      --content-align: flex-start;
+      --margin-left: 0;
+      --margin-right: auto;
+    }
+
+    /* Instant, harsh jump scrolling to prevent layout calculation crashes */
+    html, body {
+      scroll-behavior: auto !important;
+    }
+
+    body {
+      font-family: var(--font-family);
+      line-height: 1.6;
+      color: var(--text-color);
+      background-color: var(--bg-color);
+      margin: 0;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: var(--content-align);
+    }
+
+    .content-wrapper {
+      max-width: 900px;
+      width: 100%;
+      margin-left: var(--margin-left);
+      margin-right: var(--margin-right);
+    }
+
+    /* Headings */
+    h1, h2, h3, h4 {
+      font-weight: normal;
+      color: #000;
+      margin-top: 1.5em;
+      margin-bottom: 0.25em;
+    }
+
+    h1 {
+      font-size: 1.8em;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 0.25em;
+      margin-top: 0;
+    }
+
+    h2 {
+      font-size: 1.4em;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 0.15em;
+    }
+
+    h3 {
+      font-size: 1.17em;
+      font-weight: bold;
+    }
+
+    hr {
+      border: 0;
+      border-top: 1px solid var(--border-color);
+      margin: 1.5rem 0;
+    }
+
+    /* Table of Contents Box (Wikipedia style) */
+    .toc-box {
+      background-color: var(--header-bg);
+      border: 1px solid var(--border-color);
+      padding: 10px 15px;
+      display: inline-block;
+      margin: 1rem 0;
+      font-size: 0.95em;
+    }
+
+    .toc-title {
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 8px;
+    }
+
+    ol.toc-list, ul.toc-sublist {
+      padding-left: 1.5rem;
+      margin: 0;
+    }
+
+    /* Interactive TOC Links */
+    .toc-list a {
+      color: var(--text-color);
+      text-decoration: none;
+      transition: color 0.1s ease;
+      cursor: pointer;
+    }
+
+    .toc-list a:hover {
+      color: var(--link-color);
+      text-decoration: underline;
+    }
+
+    /* Tables */
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin: 1rem 0;
+      font-size: 0.95em;
+    }
+
+    th, td {
+      border: 1px solid var(--border-color);
+      padding: 6px 10px;
+      text-align: left;
+    }
+
+    th {
+      background-color: var(--header-bg);
+      background-image: linear-gradient(to bottom, #f8f9fa, #e9ecef);
+      font-weight: bold;
+    }
+
+    /* Blockquotes */
+    blockquote {
+      background-color: var(--header-bg);
+      border-left: 3px solid var(--border-color);
+      margin: 0.8rem 0;
+      padding: 0.5rem 1rem;
+      color: #333;
+    }
+
+    blockquote p {
+      margin: 0.2rem 0;
+    }
+
+    /* Floating Options Menu (Top Right) */
+    .floating-menu-container {
+      position: fixed;
+      top: 15px;
+      right: 15px;
+      z-index: 1000;
+    }
+
+    .menu-toggle-btn {
+      background: linear-gradient(to bottom, #ffffff, #f0f0f0);
+      border: 1px solid var(--border-color);
+      border-radius: 0;
+      padding: 6px 12px;
+      font-family: inherit;
+      font-size: 0.9em;
+      cursor: pointer;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    }
+
+    .menu-toggle-btn:hover {
+      background: #ffffff;
+      border-color: #72777d;
+    }
+
+    .menu-dropdown {
+      display: none;
+      position: absolute;
+      right: 0;
+      top: 100%;
+      margin-top: 4px;
+      background-color: var(--bg-color);
+      border: 1px solid var(--border-color);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+      padding: 12px;
+      width: 210px;
+      font-size: 0.9em;
+    }
+
+    .menu-dropdown.show {
+      display: block;
+    }
+
+    .menu-group {
+      margin-bottom: 10px;
+    }
+
+    .menu-group:last-child {
+      margin-bottom: 0;
+    }
+
+    .menu-group label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 4px;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 2px;
+    }
+
+    .menu-group select, .menu-group button {
+      width: 100%;
+      padding: 4px;
+      border: 1px solid var(--border-color);
+      font-family: inherit;
+      background: #fff;
+    }
+
+    .tts-btn {
+      cursor: pointer;
+      background: linear-gradient(to bottom, #ffffff, #f0f0f0) !important;
+    }
+
+    .tts-btn:hover {
+      background: #ffffff !important;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="floating-menu-container">
+    <button class="menu-toggle-btn" onclick="toggleMenu()">Display Menu</button>
+    <div class="menu-dropdown" id="optionsMenu">
+      <div class="menu-group">
+        <label for="fontSelect">Font Family</label>
+        <select id="fontSelect" onchange="changeFont(this.value)">
+          <option value="'Times New Roman', Times, serif">Times New Roman (Default)</option>
+          <option value="Arial, Helvetica, sans-serif">Arial</option>
+        </select>
+      </div>
+      <div class="menu-group">
+        <label for="alignSelect">Page Centering</label>
+        <select id="alignSelect" onchange="changeAlignment(this.value)">
+          <option value="left">Left (Default)</option>
+          <option value="middle">Middle</option>
+          <option value="right">Right</option>
+        </select>
+      </div>
+      <div class="menu-group">
+        <label for="langSelect">Language</label>
+        <select id="langSelect" onchange="updatePageDisplay()">
+          <option value="en" selected>English (Default)</option>
+          <option value="siennic">Siennic</option>
+          <option value="riverlundi">Riverlundi</option>
+          <option value="peschaten">Peschaten</option>
+        </select>
+      </div>
+      <div class="menu-group">
+        <label for="scriptSelect">Writing System</label>
+        <select id="scriptSelect" onchange="updatePageDisplay()">
+          <option value="latin" selected>Latin Alphabet</option>
+          <option value="nitalanneis">Nitalanneis Script</option>
+        </select>
+      </div>
+      <div class="menu-group">
+        <label for="speedSelect">Voice Speed</label>
+        <select id="speedSelect" onchange="updateSpeed()">
+          <option value="0.75">0.75x (Slower)</option>
+          <option value="1.0" selected>1.0x (Normal)</option>
+          <option value="1.25">1.25x (Faster)</option>
+          <option value="1.5">1.5x (Fast)</option>
+          <option value="2.0">2.0x (Very Fast)</option>
+        </select>
+      </div>
+      <div class="menu-group">
+        <label>Read Aloud</label>
+        <button id="ttsToggleBtn" class="tts-btn" onclick="toggleAudio()">Play Audio</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="content-wrapper" id="pageContent">
+    <h1>The Siennic Languages</h1>
+    <h2>A Formal Reference and Documentation</h2>
+    <hr>
+
+    <div class="toc-box">
+      <div class="toc-title">Table of Contents</div>
+      <ol class="toc-list">
+        <li><a onclick="jumpTo('sec-1')">Introduction</a></li>
+        <li><a onclick="jumpTo('sec-2')">The Siennic Language Family</a></li>
+        <li><a onclick="jumpTo('sec-3')">Geographic Distribution</a></li>
+        <li><a onclick="jumpTo('sec-4')">Speaker Population</a></li>
+        <li><a onclick="jumpTo('sec-5')">Common Characteristics</a></li>
+        <li><a onclick="jumpTo('sec-6')">Writing Systems</a></li>
+        <li><a onclick="jumpTo('sec-7')">The Nitalanneis (Siennic) Alphabet</a></li>
+        <li>
+          <a onclick="jumpTo('sec-8')">Siennic</a>
+          <ul class="toc-sublist">
+            <li><a onclick="jumpTo('sec-8-overview')">Overview</a></li>
+            <li><a onclick="jumpTo('sec-8-grammar')">Grammar</a></li>
+            <li><a onclick="jumpTo('sec-8-cases')">Noun Cases</a></li>
+          </ul>
+        </li>
+        <li>
+          <a onclick="jumpTo('sec-9')">Riverlundi</a>
+          <ul class="toc-sublist">
+            <li><a onclick="jumpTo('sec-9-overview')">Overview</a></li>
+            <li><a onclick="jumpTo('sec-9-clusters')">Letter Clusters</a></li>
+          </ul>
+        </li>
+        <li>
+          <a onclick="jumpTo('sec-10')">Peschaten</a>
+          <ul class="toc-sublist">
+            <li><a onclick="jumpTo('sec-10-overview')">Overview</a></li>
+            <li><a onclick="jumpTo('sec-10-rules')">Word Formation Rules</a></li>
+          </ul>
+        </li>
+        <li><a onclick="jumpTo('sec-11')">Pronunciation Rules</a></li>
+        <li><a onclick="jumpTo('sec-12')">Special Characters</a></li>
+        <li><a onclick="jumpTo('sec-13')">Summary</a></li>
+      </ol>
+    </div>
+
+    <hr>
+
+    <h1 id="sec-1">1. Introduction</h1>
+    <p>The <strong>Siennic languages</strong> are a small language family characterized by systematic reverse word formation while preserving English grammatical order. Rather than reversing sentence structure, Siennic languages transform individual lexical items according to language-specific rules.</p>
+    <p>Three standardized languages comprise the family:</p>
+    <ul>
+      <li><strong>Siennic</strong></li>
+      <li><strong>Riverlundi</strong></li>
+      <li><strong>Peschaten</strong></li>
+    </ul>
+    <p>Although closely related, each language employs a different method of transforming English vocabulary while maintaining nearly identical grammar.</p>
+
+    <hr>
+
+    <h1 id="sec-2">2. The Siennic Language Family</h1>
+    <p>The family consists of three official languages.</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Language</th>
+          <th>Official State</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Siennic</td>
+          <td>Fortlund, Towerlund</td>
+        </tr>
+        <tr>
+          <td>Riverlundi</td>
+          <td>Riverlund</td>
+        </tr>
+        <tr>
+          <td>Peschaten</td>
+          <td>Peschi</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>Siennic serves as the principal literary and administrative language of the family.</p>
+
+    <hr>
+
+    <h1 id="sec-3">3. Geographic Distribution</h1>
+    <p>The languages are spoken primarily in the Siennic states.</p>
+    <ul>
+      <li><strong>Fortlund</strong> &mdash; official language: Siennic</li>
+      <li><strong>Towerlund</strong> &mdash; official language: Siennic</li>
+      <li><strong>Riverlund</strong> &mdash; official language: Riverlundi</li>
+      <li><strong>Peschi</strong> &mdash; official language: Peschaten</li>
+    </ul>
+
+    <hr>
+
+    <h1 id="sec-4">4. Speaker Population</h1>
+    <p>Current estimated speaker statistics are:</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Category</th>
+          <th style="text-align: right;">Speakers</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Native Siennic speakers</td>
+          <td style="text-align: right;">26,540</td>
+        </tr>
+        <tr>
+          <td>Total ethnic Siennics</td>
+          <td style="text-align: right;">199,514</td>
+        </tr>
+        <tr>
+          <td>Worldwide speakers</td>
+          <td style="text-align: right;">Approximately 300,000</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>Siennic is the most widely spoken member of the language family.</p>
+
+    <hr>
+
+    <h1 id="sec-5">5. Common Characteristics</h1>
+    <p>All Siennic languages share several defining linguistic features.</p>
+
+    <h2>Word Order</h2>
+    <p>All languages preserve English syntax. Only the internal structure of words changes.</p>
+    <p>Example:</p>
+    <blockquote>
+      <p>English:</p>
+      <p><em>The man walks home.</em></p>
+    </blockquote>
+    <p>The transformed sentence preserves the same grammatical order.</p>
+
+    <h2>Letter Pronunciation</h2>
+    <p>A unique phonological feature is the reciprocal pronunciation of <strong>W</strong> and <strong>M</strong>.</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Written</th>
+          <th>Pronounced As</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>W</td>
+          <td>M</td>
+        </tr>
+        <tr>
+          <td>M</td>
+          <td>W</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>The visual representation remains unchanged.</p>
+
+    <h2>Uppercase Letters</h2>
+    <p>Uppercase letters are considered grammatical markers rather than independent letters. Within the native alphabet they are represented by <strong>adding a macron to the previous translated character</strong> rather than by using separate uppercase glyphs.</p>
+
+    <h2>Double R</h2>
+    <p>Two consecutive <strong>R</strong> letters represent a separate phoneme.</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Written</th>
+          <th>Pronounced</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>rr</td>
+          <td>ʁ</td>
+        </tr>
+        <tr>
+          <td>RR</td>
+          <td>ʁ̄</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>This sound is a rolled consonant distinct from ordinary <strong>R</strong>.</p>
+
+    <hr>
+
+    <h1 id="sec-6">6. Writing Systems</h1>
+    <p>Two writing systems are recognized.</p>
+    <h3>Nitalanneis Alphabet</h3>
+    <p>The traditional script.</p>
+    <h3>Latin Alphabet</h3>
+    <p>The Latin alphabet is considerably more common in modern technology, computing, and international communication.</p>
+
+    <hr>
+
+    <h1 id="sec-7">7. The Nitalanneis (Siennic) Alphabet</h1>
+    <p>The Nitalanneis alphabet contains <strong>55 total characters</strong>, including grammatical symbols.</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Latin</th>
+          <th>Nitalanneis</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>A</td><td>Ɐ</td></tr>
+        <tr><td>B</td><td>B</td></tr>
+        <tr><td>C</td><td>C</td></tr>
+        <tr><td>D</td><td>D</td></tr>
+        <tr><td>E</td><td>E</td></tr>
+        <tr><td>F</td><td>ᖷ</td></tr>
+        <tr><td>G</td><td>б</td></tr>
+        <tr><td>H</td><td>H</td></tr>
+        <tr><td>I</td><td>I</td></tr>
+        <tr><td>J</td><td>ᒉ</td></tr>
+        <tr><td>K</td><td>K</td></tr>
+        <tr><td>L</td><td>ꓶ</td></tr>
+        <tr><td>M</td><td>Ш</td></tr>
+        <tr><td>N</td><td>N</td></tr>
+        <tr><td>O</td><td>O</td></tr>
+        <tr><td>P</td><td>ᑫ</td></tr>
+        <tr><td>Q</td><td>Ò</td></tr>
+        <tr><td>R</td><td>Я</td></tr>
+        <tr><td>S</td><td>S</td></tr>
+        <tr><td>T</td><td>ꓕ</td></tr>
+        <tr><td>U</td><td>ꓵ</td></tr>
+        <tr><td>V</td><td>ꓥ</td></tr>
+        <tr><td>W</td><td>M</td></tr>
+        <tr><td>X</td><td>X</td></tr>
+        <tr><td>Y</td><td>⅄</td></tr>
+        <tr><td>Z</td><td>Z</td></tr>
+      </tbody>
+    </table>
+    <p>Additional symbols include:</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Character</th>
+          <th>Function</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Ş</td>
+          <td>Siennic dollar symbol</td>
+        </tr>
+        <tr>
+          <td>¿</td>
+          <td>Non-traditional question mark</td>
+        </tr>
+        <tr>
+          <td>ʁ</td>
+          <td>Rolled double R</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>Uppercase letters are represented through macrons rather than distinct uppercase characters.</p>
+
+    <hr>
+
+    <h1 id="sec-8">8. Siennic</h1>
+    <h2 id="sec-8-overview">Overview</h2>
+    <p>Siennic transforms English by reversing every individual word while preserving:</p>
+    <ul>
+      <li>sentence order,</li>
+      <li>punctuation,</li>
+      <li>capitalization positions,</li>
+      <li>grammatical structure.</li>
+    </ul>
+    <h3>Example</h3>
+    <p>English:</p>
+    <blockquote>
+      <p>Hello, how are you? Today is a great day, John.</p>
+    </blockquote>
+    <p>Siennic:</p>
+    <blockquote>
+      <p>Olleh, woh era uoy? Yadot si a taerg yad, Nhoj.</p>
+    </blockquote>
+
+    <h2>Pronunciation</h2>
+    <p>Consonant clusters that become awkward after reversal are <strong>skimmed</strong>, meaning one or more consonants become silent to preserve fluent pronunciation.</p>
+
+    <h2 id="sec-8-grammar">Grammar</h2>
+    <p>Grammar follows English almost entirely. No inversion of sentence order occurs.</p>
+
+    <h2 id="sec-8-cases">Noun Cases</h2>
+    <p>Siennic distinguishes three noun cases.</p>
+    <h3>Proper Standard</h3>
+    <p>Used when a sentence contains no proper nouns, or in some contexts when all nouns are treated generically.</p>
+
+    <h3>Proper Noun</h3>
+    <p>Original English proper nouns remain untranslated.</p>
+    <p>Example: <em>Walmart</em> remains <em>Walmart</em>. This case refers to preserving original nouns and should not be confused with the grammatical category of proper nouns in English.</p>
+
+    <h3>Full Noun</h3>
+    <p>All nouns are translated fully. Spaces within names are removed before transformation.</p>
+    <p>Example:</p>
+    <blockquote>
+      <p>John Doe &rarr; JohnDoe &rarr; Eodnhoj</p>
+    </blockquote>
+
+    <hr>
+
+    <h1 id="sec-9">9. Riverlundi</h1>
+    <h2 id="sec-9-overview">Overview</h2>
+    <p>Riverlundi transforms English according to <strong>reversed pronunciation clusters</strong> rather than ordinary spelling. Its grammar is identical to Siennic.</p>
+
+    <h2 id="sec-9-clusters">Letter Clusters</h2>
+    <p>Riverlundi uses <strong>76 pronunciation clusters</strong>. Words are converted into phonetic clusters before reversal.</p>
+    <p>Example:</p>
+    <blockquote>
+      <p>Sunshine &rarr; Sun-shine &rarr; Sun-sh-ine &rarr; In-ihs-nuhs &rarr; <strong>Inihsnuhs</strong></p>
+    </blockquote>
+    <p>Single letters likewise become pronunciation clusters. Example: <em>I</em> becomes <em>Eiy</em>.</p>
+    <p>The pronunciation of clusters is literal, resembling Russian orthographic consistency.</p>
+
+    <h3>Example</h3>
+    <p>English:</p>
+    <blockquote>
+      <p>You are looking very good today, sir.</p>
+    </blockquote>
+    <p>Riverlundi:</p>
+    <blockquote>
+      <p>Oy ehra guhnihkewl yivrev dewg yahdaht, rihs.</p>
+    </blockquote>
+
+    <hr>
+
+    <h1 id="sec-10">10. Peschaten</h1>
+    <h2 id="sec-10-overview">Overview</h2>
+    <p>Peschaten reverses English words and then replaces the final reversed character according to the type of letter removed.</p>
+
+    <h2 id="sec-10-rules">Replacement Rules</h2>
+    <p>After reversing a word:</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Removed Character</th>
+          <th>Replacement</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Vowel</td>
+          <td>aten</td>
+        </tr>
+        <tr>
+          <td>Consonant</td>
+          <td>itna</td>
+        </tr>
+        <tr>
+          <td>Semivowel</td>
+          <td>vuhtvad</td>
+        </tr>
+        <tr>
+          <td>Single-letter word</td>
+          <td>sht</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Example</h3>
+    <p>English:</p>
+    <blockquote>
+      <p>Hello, John. I love you.</p>
+    </blockquote>
+    <p>Peschaten:</p>
+    <blockquote>
+      <p>Olleitna, Johitna. Isht evoaten ouaten.</p>
+    </blockquote>
+
+    <hr>
+
+    <h1 id="sec-11">11. Pronunciation Rules</h1>
+    <p>All members of the family share the following pronunciation conventions.</p>
+    <ul>
+      <li>W is always pronounced as M.</li>
+      <li>M is always pronounced as W.</li>
+      <li>Double <strong>R</strong> is pronounced as the distinct phoneme <strong>ʁ</strong>.</li>
+      <li>Riverlundi pronunciation follows literal pronunciation clusters.</li>
+      <li>Siennic permits silent consonants in difficult reversed clusters.</li>
+    </ul>
+
+    <hr>
+
+    <h1 id="sec-12">12. Special Characters</h1>
+    <p>Three symbols are unique to Siennic orthography.</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Character</th>
+          <th>Purpose</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Ş</td>
+          <td>Siennic dollar sign</td>
+        </tr>
+        <tr>
+          <td>¿</td>
+          <td>Alternate question mark (entered using ? + 2)</td>
+        </tr>
+        <tr>
+          <td>ʁ</td>
+          <td>Rolled double R</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <hr>
+
+    <h1 id="sec-13">13. Summary</h1>
+    <p>The Siennic language family comprises three closely related constructed languages sharing a common grammatical foundation while differing in lexical transformation methods.</p>
+    <ul>
+      <li><strong>Siennic</strong> reverses the spelling of each English word while preserving sentence order and grammatical structure.</li>
+      <li><strong>Riverlundi</strong> reverses phonetic pronunciation clusters instead of written spelling.</li>
+      <li><strong>Peschaten</strong> reverses spelling and then applies suffix replacement rules based on the final character type.</li>
+    </ul>
+    <p>Across all three languages, shared features include the Nitalanneis writing system, reciprocal <strong>W/M</strong> pronunciation, grammatical uppercase marking via macrons, and the use of distinctive orthographic symbols such as <strong>Ş</strong>, <strong>¿</strong>, and <strong>ʁ</strong>. Together, these characteristics define the Siennic language family as a cohesive linguistic system with consistent grammar but distinct methods of lexical transformation.</p>
+  </div>
+
+  <script>
+    /* Table of Contents Harsh Instant Jump */
+    function jumpTo(id) {
+      const elem = document.getElementById(id);
+      if (elem) {
+        elem.scrollIntoView({ behavior: 'instant', block: 'start' });
+      }
+    }
+
+    function toggleMenu() {
+      const menu = document.getElementById('optionsMenu');
+      menu.classList.toggle('show');
+    }
+
+    document.addEventListener('click', function(event) {
+      const container = document.querySelector('.floating-menu-container');
+      if (!container.contains(event.target)) {
+        document.getElementById('optionsMenu').classList.remove('show');
+      }
+    });
+
+    function changeFont(fontFamily) {
+      document.documentElement.style.setProperty('--font-family', fontFamily);
+    }
+
+    function changeAlignment(align) {
+      const root = document.documentElement;
+      if (align === 'left') {
+        root.style.setProperty('--content-align', 'flex-start');
+        root.style.setProperty('--margin-left', '0');
+        root.style.setProperty('--margin-right', 'auto');
+      } else if (align === 'middle') {
+        root.style.setProperty('--content-align', 'center');
+        root.style.setProperty('--margin-left', 'auto');
+        root.style.setProperty('--margin-right', 'auto');
+      } else if (align === 'right') {
+        root.style.setProperty('--content-align', 'flex-end');
+        root.style.setProperty('--margin-left', 'auto');
+        root.style.setProperty('--margin-right', '0');
+      }
+    }
+
+    /* Nitalanneis Alphabet Mapping */
+    const nitalanneisMap = {
+      'A': 'Ɐ', 'a': 'Ɐ',
+      'B': 'B', 'b': 'B',
+      'C': 'C', 'c': 'C',
+      'D': 'D', 'd': 'D',
+      'E': 'E', 'e': 'E',
+      'F': 'ᖷ', 'f': 'ᖷ',
+      'G': 'б', 'g': 'б',
+      'H': 'H', 'h': 'H',
+      'I': 'I', 'i': 'I',
+      'J': 'ᒉ', 'j': 'ᒉ',
+      'K': 'K', 'k': 'K',
+      'L': 'ꓶ', 'l': 'ꓶ',
+      'M': 'Ш', 'm': 'Ш',
+      'N': 'N', 'n': 'N',
+      'O': 'O', 'o': 'O',
+      'P': 'ᑫ', 'p': 'ᑫ',
+      'Q': 'Ò', 'q': 'Ò',
+      'R': 'Я', 'r': 'Я',
+      'S': 'S', 's': 'S',
+      'T': 'ꓕ', 't': 'ꓕ',
+      'U': 'ꓵ', 'u': 'ꓵ',
+      'V': 'ꓥ', 'v': 'ꓥ',
+      'W': 'M', 'w': 'M',
+      'X': 'X', 'x': 'X',
+      'Y': '⅄', 'y': '⅄',
+      'Z': 'Z', 'z': 'Z'
+    };
+
+    /* Riverlundi 76 Phonetic Letter Clusters */
+    const riverlundiClusters = [
+      "tion", "sion", "ight", "ough", "eigh", "tch", "dge", "str", "spr", "spl",
+      "sch", "thr", "shr", "ph", "gh", "th", "sh", "ch", "wh", "ck", "kn", "wr",
+      "ng", "qu", "st", "sp", "sc", "sk", "sm", "sn", "sw", "tr", "dr", "pr",
+      "br", "cr", "gr", "fr", "pl", "bl", "cl", "gl", "fl", "sl", "ee", "ea",
+      "oo", "ou", "ow", "ai", "ay", "oa", "oe", "ie", "ei", "ue", "ew", "ui",
+      "au", "aw", "oi", "oy", "er", "ir", "ur", "ar", "or", "al", "el", "il",
+      "ol", "ul", "an", "en", "in", "on"
+    ];
+
+    let originalDOMNodes = [];
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const content = document.getElementById('pageContent');
+      const walker = document.createTreeWalker(content, NodeFilter.SHOW_TEXT, null, false);
+      let node;
+      while (node = walker.nextNode()) {
+        if (node.nodeValue.trim().length > 0) {
+          originalDOMNodes.push({
+            node: node,
+            originalText: node.nodeValue
+          });
+        }
+      }
+    });
+
+    function transformWordSiennic(word) {
+      let match = word.match(/^([^\w]*)([\w']+)([^\w]*)$/);
+      if (!match) return word;
+      let prefix = match[1], core = match[2], suffix = match[3];
+      
+      let reversed = core.split('').reverse().join('');
+      let result = '';
+      
+      for (let i = 0; i < core.length; i++) {
+        let isUpper = core[i] === core[i].toUpperCase() && core[i] !== core[i].toLowerCase();
+        let char = reversed[i];
+        result += isUpper ? char.toUpperCase() : char.toLowerCase();
+      }
+      return prefix + result + suffix;
+    }
+
+    function transformWordRiverlundi(word) {
+      let match = word.match(/^([^\w]*)([\w']+)([^\w]*)$/);
+      if (!match) return word;
+      let prefix = match[1], core = match[2], suffix = match[3];
+
+      let lowerCore = core.toLowerCase();
+      let clusters = [];
+      let idx = 0;
+
+      while (idx < lowerCore.length) {
+        let matchedCluster = null;
+        for (let cluster of riverlundiClusters) {
+          if (lowerCore.startsWith(cluster, idx)) {
+            matchedCluster = cluster;
+            break;
+          }
+        }
+        if (matchedCluster) {
+          clusters.push(matchedCluster);
+          idx += matchedCluster.length;
+        } else {
+          clusters.push(lowerCore[idx]);
+          idx++;
+        }
+      }
+
+      clusters.reverse();
+      let resCore = clusters.join('');
+
+      let result = '';
+      for (let i = 0; i < resCore.length; i++) {
+        let isUpper = (i < core.length) ? (core[i] === core[i].toUpperCase() && core[i] !== core[i].toLowerCase()) : false;
+        let char = resCore[i];
+        result += isUpper ? char.toUpperCase() : char.toLowerCase();
+      }
+
+      return prefix + result + suffix;
+    }
+
+    function transformWordPeschaten(word) {
+      let match = word.match(/^([^\w]*)([\w']+)([^\w]*)$/);
+      if (!match) return word;
+      let prefix = match[1], core = match[2], suffix = match[3];
+      
+      if (core.length === 1) {
+        if (/^[a-zA-Z]$/.test(core)) {
+          let isUpper = core[0] === core[0].toUpperCase();
+          let res = "sht";
+          return prefix + (isUpper ? res.charAt(0).toUpperCase() + res.slice(1) : res) + suffix;
+        } else {
+          return word;
+        }
+      }
+
+      let lastChar = core[core.length - 1].toLowerCase();
+      let reversed = core.split('').reverse().join('').slice(0, -1);
+      
+      let replacement = "itna";
+      if (['a', 'e', 'i', 'o', 'u'].includes(lastChar)) {
+        replacement = "aten";
+      } else if (['w', 'y'].includes(lastChar)) {
+        replacement = "vuhtvad";
+      }
+
+      let combined = reversed + replacement;
+      let result = '';
+      
+      for (let i = 0; i < combined.length; i++) {
+        let isUpper = (i < core.length) ? (core[i] === core[i].toUpperCase() && core[i] !== core[i].toLowerCase()) : false;
+        let char = combined[i];
+        result += isUpper ? char.toUpperCase() : char.toLowerCase();
+      }
+      return prefix + result + suffix;
+    }
+
+    function convertToNitalanneis(text) {
+      return text.split('').map(char => nitalanneisMap[char] || char).join('');
+    }
+
+    function transformText(text, lang, script) {
+      let transformed = text;
+      
+      if (lang !== 'en') {
+        transformed = text.replace(/\b[\w']+\b/g, function(word) {
+          if (lang === 'siennic') {
+            return transformWordSiennic(word);
+          } else if (lang === 'riverlundi') {
+            return transformWordRiverlundi(word);
+          } else if (lang === 'peschaten') {
+            return transformWordPeschaten(word);
+          }
+          return word;
+        });
+      }
+
+      if (script === 'nitalanneis') {
+        transformed = convertToNitalanneis(transformed);
+      }
+
+      return transformed;
+    }
+
+    function updatePageDisplay() {
+      stopAudio();
+      const currentLang = document.getElementById('langSelect').value;
+      const currentScript = document.getElementById('scriptSelect').value;
+
+      originalDOMNodes.forEach(item => {
+        item.node.nodeValue = transformText(item.originalText, currentLang, currentScript);
+      });
+    }
+
+    /* Google TTS Audio Engine with Speed Control */
+    let audioQueue = [];
+    let currentAudio = null;
+    let isPlaying = false;
+
+    function getLanguageCode(lang) {
+      switch (lang) {
+        case 'siennic': return 'pl';
+        case 'riverlundi': return 'sr';
+        case 'peschaten': return 'ru';
+        case 'en':
+        default: return 'en-US';
+      }
+    }
+
+    function chunkText(text, maxLength = 180) {
+      const sentences = text.match(/[^.!?]+[.!?]+|\s*[^.!?]+$/g) || [text];
+      let chunks = [];
+      let currentChunk = "";
+
+      sentences.forEach(sentence => {
+        if ((currentChunk + sentence).length <= maxLength) {
+          currentChunk += " " + sentence;
+        } else {
+          if (currentChunk.trim()) chunks.push(currentChunk.trim());
+          if (sentence.length > maxLength) {
+            let words = sentence.split(" ");
+            currentChunk = "";
+            words.forEach(w => {
+              if ((currentChunk + " " + w).length <= maxLength) {
+                currentChunk += " " + w;
+              } else {
+                if (currentChunk.trim()) chunks.push(currentChunk.trim());
+                currentChunk = w;
+              }
+            });
+          } else {
+            currentChunk = sentence;
+          }
+        }
+      });
+      if (currentChunk.trim()) chunks.push(currentChunk.trim());
+      return chunks;
+    }
+
+    function stopAudio() {
+      isPlaying = false;
+      audioQueue = [];
+      if (currentAudio) {
+        currentAudio.pause();
+        currentAudio = null;
+      }
+      document.getElementById('ttsToggleBtn').innerText = 'Play Audio';
+    }
+
+    function updateSpeed() {
+      if (currentAudio && isPlaying) {
+        const speed = parseFloat(document.getElementById('speedSelect').value) || 1.0;
+        currentAudio.playbackRate = speed;
+      }
+    }
+
+    function playNextAudioChunk(langCode) {
+      if (!isPlaying || audioQueue.length === 0) {
+        stopAudio();
+        return;
+      }
+
+      const textChunk = audioQueue.shift();
+      const url = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(textChunk)}&tl=${langCode}&client=tw-ob`;
+
+      currentAudio = new Audio(url);
+      const speed = parseFloat(document.getElementById('speedSelect').value) || 1.0;
+      currentAudio.playbackRate = speed;
+
+      currentAudio.play().then(() => {
+        currentAudio.onended = () => {
+          playNextAudioChunk(langCode);
+        };
+      }).catch(err => {
+        console.warn("Audio playback interrupted or blocked:", err);
+        playNextAudioChunk(langCode);
+      });
+    }
+
+    function toggleAudio() {
+      if (isPlaying) {
+        stopAudio();
+        return;
+      }
+
+      const textToRead = document.getElementById('pageContent').innerText;
+      const currentLang = document.getElementById('langSelect').value;
+      const langCode = getLanguageCode(currentLang);
+
+      audioQueue = chunkText(textToRead, 180);
+      if (audioQueue.length === 0) return;
+
+      isPlaying = true;
+      document.getElementById('ttsToggleBtn').innerText = 'Stop Audio';
+      playNextAudioChunk(langCode);
+    }
+  </script>
+</body>
+</html>
